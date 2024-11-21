@@ -1,0 +1,12 @@
+{
+  "name": "net8store",
+  "version": "1.0.0",
+  "scripts": {
+    "tailwind": "tailwindcss -i ./wwwroot/css/index.css -o ./wwwroot/css/site.css --watch"
+  },
+  "author": "Vladislav Pozdeev",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.15"
+  }
+}
