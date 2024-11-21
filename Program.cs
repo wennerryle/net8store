@@ -1,11 +1,14 @@
-//  Copyright (c) 2024 Vladislav Pozdeev. All rights reserved.
-//  Use this source code is governed by an MIT license
-//  that can be found in the LICENSE file.
+using Microsoft.EntityFrameworkCore;
+using net8store.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<StoreContext>(options => {
+    options.UseSqlite();
+});
 
 var app = builder.Build();
 
@@ -13,18 +16,14 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
 }
 
-// app.UseHttpsRedirection();
+app.UseStaticFiles();
 
 app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
 app.Run();
