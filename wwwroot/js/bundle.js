@@ -44,7 +44,7 @@
           Добавить в корзину
         </button>
       </div>
-    `}_onBuyClick(){this.dispatchEvent(new CustomEvent("buy-click"))}_onCartClick(){this.dispatchEvent(new CustomEvent("cart-click"))}};u.styles=[gt,yt,At,y`
+    `}_onBuyClick(){this.dispatchEvent(new CustomEvent("buy-click",{}))}_onCartClick(){this.dispatchEvent(new CustomEvent("cart-click"))}};u.styles=[gt,yt,At,y`
       :host {
         outline: 1px solid #e5e7eb;
         border-radius: 8px;

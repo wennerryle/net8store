@@ -68,17 +68,13 @@ export class ProductCard extends LitElement {
     `,
   ];
 
-  @property()
-  title = "Product Title";
+  @property() title = "Product Title";
+  @property() description = "Product description goes here";
+  @property() cost = "$0.00";
+  @property() imageUrl = "";
 
-  @property()
-  description = "Product description goes here";
-
-  @property()
-  cost = "$0.00";
-
-  @property()
-  imageUrl = "";
+  @property({ type: Number })
+  productId = -1;
 
   render() {
     return html`
@@ -103,10 +99,10 @@ export class ProductCard extends LitElement {
   }
 
   private _onBuyClick() {
-    this.dispatchEvent(new CustomEvent("buy-click"));
+    this.dispatchEvent(new CustomEvent("buy-click", { detail: { productId: this.productId } }));
   }
 
   private _onCartClick() {
-    this.dispatchEvent(new CustomEvent("cart-click"));
+    this.dispatchEvent(new CustomEvent("cart-click", { detail: { productId: this.productId } }));
   }
 }
