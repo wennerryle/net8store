@@ -11,12 +11,23 @@
 
     <environment include="Development">
         <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        width: {
+                            content: "min(84.375%, 1216px)"
+                        }
+                    }
+                }
+            }
+        </script>
     </environment>
 </head>
 
 <body>
-    <header class="sticky top-0 w-full mb-7">
-        <nav class="bg-white bg-opacity-80 backdrop-blur-sm p-4 border border-b flex list-none gap-x-4 items-center">
+    <header class="bg-white bg-opacity-90 backdrop-blur-sm sticky border-b top-0 mb-7">
+        <nav class="mx-auto md:pl-0 h-12 pl-4 w-content flex list-none gap-x-4 items-center">
             <a class="navbar-brand" asp-area="" asp-page="/Index">
                 <img style="padding-top: 1px; height: 23px" src="~/logo.svg" alt="SpeedyCars">
             </a>
@@ -31,11 +42,12 @@
         </main>
     </div>
 
-    <footer class="border border-t p-3">
+    <footer class="border-t p-3 w-content mx-auto mt-6">
         &copy; 1998-2024. SpeedyCars -
         <a class="text-blue-500" asp-area="" asp-page="/Privacy">
             Политика в отношении обработки персональных данных
         </a>
     </footer>
 </body>
+
 </html>

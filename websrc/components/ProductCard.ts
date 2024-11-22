@@ -18,11 +18,9 @@ export class ProductCard extends LitElement {
     secondaryButton,
     css`
       :host {
-        display: block;
-        border: 1px solid #e0e0e0;
+        outline: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 16px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         font-family: Arial, sans-serif;
       }
 
@@ -58,7 +56,14 @@ export class ProductCard extends LitElement {
       .product-actions {
         margin-top: 16px;
         display: flex;
+        flex-wrap: wrap;
         gap: 8px;
+      }
+
+      .primary-button,
+      .secondary-button {
+        flex: 1;
+        min-width: max-content;
       }
     `,
   ];

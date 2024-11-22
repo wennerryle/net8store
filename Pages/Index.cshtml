@@ -7,7 +7,7 @@
 <div class="">
     <h1 class="">Добро пожаловать!</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <div class="grid">
+    <div class="grid w-content mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         @for(int i = 0; i < 10; i++) {
             @: <product-card id="@i" description="lala" cost="10 руб." title="Some title" imageurl="https://moscowteslaclub.ru/upload/uf/216/kmp8jg0mzfrppzlv69t8pfxurbh7ut3o.jpg"></product-card>
         }

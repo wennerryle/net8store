@@ -5,7 +5,11 @@
 module.exports = {
   content: ["./Pages/**/*.cshtml", "./js/**/*.ts"],
   theme: {
-    extend: {},
+    extend: {
+      width: {
+        content: "min(84.375%, 1216px)"
+      }
+    },
   },
   plugins: [],
 }
