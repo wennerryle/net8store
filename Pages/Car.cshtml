@@ -1,0 +1,39 @@
+﻿@page "{id:int}"
+@model net8store.Pages.CarModel
+@{
+  ViewData["Title"] = Model.car.Acceleration;
+}
+
+<div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
+  <h1 class="text-3xl font-bold text-gray-800 mb-6">@Model.car.ShortDescription</h1>
+
+  <div class="grid grid-cols-2 gap-4 mb-6">
+    <div>
+      <h2 class="font-semibold text-gray-600">Full Description</h2>
+      <p class="text-gray-800">@Model.car.FullDescription</p>
+    </div>
+    <div>
+      <h2 class="font-semibold text-gray-600">Engine Details</h2>
+      <p class="text-gray-800">
+        Type: @Model.car.EngineKind<br>
+        Description: @Model.car.EngineDescription
+      </p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+    <div>
+      <h3 class="font-semibold text-gray-600">Performance</h3>
+      <ul class="space-y-2">
+        <li>
+          <span class="font-medium text-gray-700">Acceleration (0-100):</span>
+          <span class="text-gray-800">@Model.car.Acceleration sec</span>
+        </li>
+        <li>
+          <span class="font-medium text-gray-700">Top Speed:</span>
+          <span class="text-gray-800">@Model.car.TopSpeed km/h</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

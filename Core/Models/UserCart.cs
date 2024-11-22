@@ -7,6 +7,5 @@ public class UserCart
 {
   [Key]
   public Guid UserCartId { get; set; }
-
-  
+  public required ICollection<Car> Cars { get; set; }
 }

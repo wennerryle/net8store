@@ -17,7 +17,7 @@ async function rebuild() {
     entryPoints: ["./websrc/index.ts"],
     bundle: true,
     minify: true,
-    sourcemap: false,
+    sourcemap: "inline",
     outfile: "./wwwroot/js/bundle.js",
     legalComments: "none"
   });

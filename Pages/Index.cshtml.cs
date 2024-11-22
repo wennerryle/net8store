@@ -1,16 +1,13 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using net8store.Core;
 
 namespace net8store.Pages;
 
-public class IndexModel : PageModel
+public class IndexModel(StoreContext storeContext) : PageModel
 {
-    private readonly ILogger<IndexModel> _logger;
+    const int TO_SHOW_CARD_AMOUNT = 10;
 
-    public IndexModel(ILogger<IndexModel> logger)
-    {
-        _logger = logger;
-    }
+    public readonly string[] carsImages = storeContext.Cars.Select(car => car.ImageURL).Take(10).ToArray();
 
     public void OnGet()
     {

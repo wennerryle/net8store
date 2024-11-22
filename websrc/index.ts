@@ -7,11 +7,11 @@ import Splide from '@splidejs/splide';
 import "./components";
 
 window.addEventListener('DOMContentLoaded', () => {
-  const carousel = document.querySelector('.splide');
+  const carousel = document.querySelector<HTMLElement>('.splide');
   
   console.log("carousel: %o", carousel);
   
   if (carousel) {
-    new Splide(carousel as HTMLElement).mount();
+    new Splide(carousel).mount();
   }
 }, { once: true })

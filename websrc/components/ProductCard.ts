@@ -4,11 +4,14 @@
 
 import { css, html, LitElement } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { choose } from "lit/directives/choose.js";
 import {
   buttonBase,
   primaryButton,
   secondaryButton,
 } from "../styles/button-styles";
+
+import { EngineKinds } from "../core/EngineKinds.enum";
 
 @customElement("product-card")
 export class ProductCard extends LitElement {
@@ -71,10 +74,13 @@ export class ProductCard extends LitElement {
   @property() title = "Product Title";
   @property() description = "Product description goes here";
   @property() cost = "$0.00";
-  @property() imageUrl = "";
+  @property() imageUrl: string | null = null;
 
   @property({ type: Number })
-  productId = -1;
+  productId: number | null = null;
+
+  @property({ type: Number })
+  engineKind: EngineKinds | null = null;
 
   render() {
     return html`
@@ -85,7 +91,15 @@ export class ProductCard extends LitElement {
         alt=${this.title}
       />`}
       <h2 class="product-title">${this.title}</h2>
-      <p class="product-description">${this.description}</p>
+      <p class="product-description">
+        ${choose(this.engineKind, [
+          [EngineKinds.Diesel, () => html`Дизель`],
+          [EngineKinds.Gas,    () => html`Газ`],
+          [EngineKinds.Hybrid, () => html`Гибрид`],
+          [EngineKinds.Manual, () => html`Механика`],
+          [EngineKinds.Petrol, () => html`Бензин`]
+        ])}. ${this.description}
+      </p>
       <p class="product-cost">${this.cost}</p>
       <div class="product-actions">
         <button class="primary-button" @click=${this._onBuyClick}>
