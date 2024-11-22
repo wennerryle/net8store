@@ -4,9 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - net8store</title>
+    <title>@ViewData["Title"] - SpeedyCars</title>
     <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/net8store.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/splide.min.css" asp-asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/net8store.styles.css" asp-append-version="true" />
     <script src="~/js/bundle.js" - asp-append-version="true"></script>
 
     <environment include="Development">
@@ -26,8 +27,8 @@
 </head>
 
 <body>
-    <header class="bg-white bg-opacity-90 backdrop-blur-sm sticky border-b top-0 mb-7">
-        <nav class="mx-auto md:pl-0 h-12 pl-4 w-content flex list-none gap-x-4 items-center">
+    <header class="z-10 bg-white bg-opacity-90 backdrop-blur-sm sticky border-b top-0 mb-7">
+        <nav class="mx-auto h-12 w-content flex list-none gap-x-4 items-center">
             <a class="navbar-brand" asp-area="" asp-page="/Index">
                 <img style="padding-top: 1px; height: 23px" src="~/logo.svg" alt="SpeedyCars">
             </a>
@@ -43,7 +44,8 @@
     </div>
 
     <footer class="border-t p-3 w-content mx-auto mt-6">
-        &copy; 1998-2024. SpeedyCars -
+        &copy; 1998-2024. SpeedyCars
+        <br>
         <a class="text-blue-500" asp-area="" asp-page="/Privacy">
             Политика в отношении обработки персональных данных
         </a>

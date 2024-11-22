@@ -3,9 +3,16 @@ import chokidar from "chokidar";
 
 console.log("esbuild watch enabled");
 
-chokidar.watch("./websrc").on("change", async () => {
-  console.log("files changes.. rebuilding...")
+console.log("building for the first time..")
+rebuild();
 
+chokidar.watch("./websrc").on("change", () => {
+  console.log("files changes.. building...")
+
+  rebuild()
+});
+
+async function rebuild() {
   await esbuild.build({
     entryPoints: ["./websrc/index.ts"],
     bundle: true,
@@ -15,5 +22,6 @@ chokidar.watch("./websrc").on("change", async () => {
     legalComments: "none"
   });
 
-  console.log("successfully rebuilded!")
-});
+  console.log("successfully builded!")
+}
+

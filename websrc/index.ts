@@ -3,4 +3,15 @@
 //  that can be found in the LICENSE file.
 
 
+import Splide from '@splidejs/splide';
 import "./components";
+
+window.addEventListener('DOMContentLoaded', () => {
+  const carousel = document.querySelector('.splide');
+  
+  console.log("carousel: %o", carousel);
+  
+  if (carousel) {
+    new Splide(carousel as HTMLElement).mount();
+  }
+}, { once: true })

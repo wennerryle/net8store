@@ -5,11 +5,25 @@
 }
 
 <div class="">
-    <h1 class="">Добро пожаловать!</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <section class="w-content mx-auto">
+        <h1 class="text-3xl pb-6">
+            Спорткары на любой вкус
+        </h1>
+    </section>
+    <section class="splide" aria-label="Splide Basic HTML Example">
+        <div class="splide__track h-[max(330px,40vh)] w-content mx-auto">
+            <ul class="splide__list">
+                @for (int i = 0; i < 10; i++)
+                {
+                    <li class="splide__slide">Slide @i</li>
+                }
+            </ul>
+        </div>
+    </section>
     <div class="grid w-content mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        @for(int i = 0; i < 10; i++) {
-            @: <product-card id="@i" description="lala" cost="10 руб." title="Some title" imageurl="https://moscowteslaclub.ru/upload/uf/216/kmp8jg0mzfrppzlv69t8pfxurbh7ut3o.jpg"></product-card>
+        @for (int i = 0; i < 10; i++)
+        {
+            @: <product-card id="@i" description="lala" cost="10 руб." title = "Some title Some title Some title Some title Some title Some title Some title Some title" imageurl = "https://moscowteslaclub.ru/upload/uf/216/kmp8jg0mzfrppzlv69t8pfxurbh7ut3o.jpg" ></product-card>
         }
     </div>
 </div>

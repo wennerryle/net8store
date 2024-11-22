@@ -1,0 +1,7 @@
+.splide__slide {
+  height: 100px;
+}
+
+.splide__pagination__page.is-active {
+  background-color: aqua;
+}
