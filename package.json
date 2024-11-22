@@ -1,17 +1,21 @@
 {
   "name": "net8store",
+  "type": "module",
   "version": "1.0.0",
   "scripts": {
     "dev": "node ./dev.js",
-    "build:tailwind": "tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/tailwind.css --minify"
+    "build:tailwind": "tailwindcss -i ./wwwroot/css/site.css -o ./wwwroot/css/tailwind.css --minify",
+    "esbuild": "esbuild ./js/index.ts --bundle --outfile=./wwwroot/js"
   },
   "author": "Vladislav Pozdeev",
   "license": "MIT",
   "devDependencies": {
-    "@swc/cli": "^0.5.1",
-    "@swc/core": "^1.9.2",
-    "browserslist": "^4.24.2",
+    "chokidar": "^4.0.1",
     "concurrently": "^9.1.0",
+    "esbuild": "0.24.0",
     "tailwindcss": "^3.4.15"
+  },
+  "dependencies": {
+    "lit": "^3.2.1"
   }
 }

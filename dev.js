@@ -1,8 +1,15 @@
-const concurrently = require("concurrently");
+import concurrently from "concurrently";
 
-concurrently(
-  [
-    { command: 'dotnet watch', name: 'dotnet', prefixColor: 'green' },
-    { command: 'swc ./js/**/*.ts -d ./wwwroot/ --config-file ./js/.swcrc -w', name: 'swc', prefixColor: 'blue' }
-  ]
-)
+concurrently([
+  {
+    command: "dotnet watch",
+    name: "dotnet",
+    prefixColor: "green",
+    env: { DOTNET_WATCH_RESTART_ON_RUDE_EDIT: 1 },
+  },
+  {
+    name: "esbuild",
+    command: "node ./bundleprocess",
+    prefixColor: "blue",
+  },
+]);

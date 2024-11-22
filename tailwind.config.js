@@ -3,7 +3,7 @@
 //  that can be found in the LICENSE file.
 
 module.exports = {
-  content: ["./Pages/**/*.cshtml"],
+  content: ["./Pages/**/*.cshtml", "./js/**/*.ts"],
   theme: {
     extend: {},
   },

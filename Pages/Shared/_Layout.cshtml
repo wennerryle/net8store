@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - net8store</title>
     <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/net8store.styles.css" asp-append-version="true" />
+    <script src="~/js/bundle.js"- asp-append-version="true"></script>
+    
     <environment include="Development">
         <script src="https://cdn.tailwindcss.com"></script>
     </environment>
@@ -43,9 +45,5 @@
             &copy; 2024 - net8store - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
-    
-    <script src="~/js/index.js" asp-append-version="true"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

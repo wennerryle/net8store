@@ -1,1 +1,3 @@
-alert("I'm work!")
+console.log("everything is ok")
+
+import "./components/";
