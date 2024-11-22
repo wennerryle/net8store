@@ -1,49 +1,41 @@
 ﻿<!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - net8store</title>
     <link rel="stylesheet" href="~/css/tailwind.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/net8store.styles.css" asp-append-version="true" />
-    <script src="~/js/bundle.js"- asp-append-version="true"></script>
-    
+    <script src="~/js/bundle.js" - asp-append-version="true"></script>
+
     <environment include="Development">
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
     </environment>
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">net8store</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+    <header class="sticky top-0 w-full mb-7">
+        <nav class="bg-white bg-opacity-80 backdrop-blur-sm p-4 border border-b flex list-none gap-x-4 items-center">
+            <a class="navbar-brand" asp-area="" asp-page="/Index">
+                <img style="padding-top: 1px; height: 23px" src="~/logo.svg" alt="SpeedyCars">
+            </a>
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="" asp-page="/Index">Главная</a>
+            </li>
         </nav>
     </header>
-    <div class="container">
+    <div class="">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - net8store - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
+    <footer class="border border-t p-3">
+        &copy; 1998-2024. SpeedyCars -
+        <a class="text-blue-500" asp-area="" asp-page="/Privacy">
+            Политика в отношении обработки персональных данных
+        </a>
     </footer>
 </body>
 </html>

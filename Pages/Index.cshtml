@@ -1,11 +1,15 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Главная страница";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Добро пожаловать!</h1>
+<div class="">
+    <h1 class="">Добро пожаловать!</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <product-card>hello</product-card>
+    <div class="grid">
+        @for(int i = 0; i < 10; i++) {
+            @: <product-card id="@i" description="lala" cost="10 руб." title="Some title" imageurl="https://moscowteslaclub.ru/upload/uf/216/kmp8jg0mzfrppzlv69t8pfxurbh7ut3o.jpg"></product-card>
+        }
+    </div>
 </div>
