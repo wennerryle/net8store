@@ -66,7 +66,7 @@ export class LitPaginator extends LitElement {
     const currentPage = this.currentPage;
     const total = this.total;
 
-    if (total < 1) {
+    if (total <= 1) {
       return []
     }
 
