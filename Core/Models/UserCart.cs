@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 public class UserCart
 {
   [Key]
-  public Guid UserCartId { get; set; }
+  [MaxLength(36)]
+  public string UserCartId { get; set; } = null!;
   public required ICollection<Car> Cars { get; set; }
 }

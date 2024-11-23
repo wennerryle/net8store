@@ -4,5 +4,6 @@ export enum EngineKinds
   Diesel,
   Gas,
   Manual,
-  Hybrid
+  Hybrid,
+  Electro
 }

@@ -1,20 +1,22 @@
-﻿@page
+﻿@page "{currentPage:int=1}"
 @using net8store.Core.Enums
 @model IndexModel
 @{
     ViewData["Title"] = "Главная страница";
 }
 
-
 <section class="w-content mx-auto">
     <h1 class="text-3xl pb-6">
-        Спорткары на любой вкус
-        @(String.Join(", ", Model.carsImages))
+        @if (Model.CurrentPage == 1) {
+            @: Спорткары на любой вкус
+        } else {
+            @: Спорткары. Страница @Model.CurrentPage
+        }
     </h1>
 </section>
-@if (Model.carsImages.Length != 0) {
+@if (Model.carsImages.Length != 0 && Model.CurrentPage == 1) {
     <section class="splide mb-3" aria-label="Cars">
-        <div class="splide__track h-[max(330px,40vh)] w-content mx-auto">
+        <div class="splide__track w-content mx-auto rounded-lg">
             <ul class="splide__list">
                 @foreach (var carImage in Model.carsImages)
                 {
@@ -28,12 +30,12 @@
 }
 
 <div class="grid w-content mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    @for (int i = 0; i < 10; i++)
+    @foreach (var car in @Model.cars)
     {
-        @: <product-card id="@i" description="lala" cost="10 руб." title = "Some title Some title Some title Some title Some title Some title Some title Some title" imageurl = "https://moscowteslaclub.ru/upload/uf/216/kmp8jg0mzfrppzlv69t8pfxurbh7ut3o.jpg" enginekind="@((int)EngineKinds.Gas)"></product-card>
+        @: <product-card id="@car.CarId" description="@car.ShortDescription" cost="@car.Cost руб." title="@car.Brand @car.Model" imageurl = "@car.ImageURL" enginekind="@((int)car.EngineKind)"></product-card>
     }
 </div>
 
 <div class="flex justify-center">
-    <lit-paginator class="mt-8" total="10"></lit-paginator>
+    <lit-paginator class="mt-8" currentpage=@Model.CurrentPage total="@Model.pagesAmount" />
 </div>

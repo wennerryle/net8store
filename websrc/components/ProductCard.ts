@@ -21,6 +21,8 @@ export class ProductCard extends LitElement {
     secondaryButton,
     css`
       :host {
+        display: flex;
+        flex-direction: column;
         outline: 1px solid #e5e7eb;
         border-radius: 8px;
         padding: 16px;
@@ -54,12 +56,15 @@ export class ProductCard extends LitElement {
         font-weight: bold;
         color: #2c5282;
         margin: 0;
+        margin-bottom: auto;
       }
 
       .product-actions {
+        width: 100%;
         margin-top: 16px;
         display: flex;
         flex-wrap: wrap;
+        align-self: flex-end;
         gap: 8px;
       }
 
@@ -97,7 +102,8 @@ export class ProductCard extends LitElement {
           [EngineKinds.Gas,    () => html`Газ`],
           [EngineKinds.Hybrid, () => html`Гибрид`],
           [EngineKinds.Manual, () => html`Механика`],
-          [EngineKinds.Petrol, () => html`Бензин`]
+          [EngineKinds.Petrol, () => html`Бензин`],
+          [EngineKinds.Electro, () => html`Электрический`]
         ])}. ${this.description}
       </p>
       <p class="product-cost">${this.cost}</p>

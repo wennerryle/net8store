@@ -8,6 +8,15 @@ import { buttonBase, primaryButton, secondaryButton } from "../styles/button-sty
 
 type PageType = number | null;
 
+export const enum LitPaginatorEvent {
+  PageChange = "page-change"
+}
+
+export interface OnPageChangeDetails {
+  page: number,
+  isMiddleButtonClicked: boolean,
+}
+
 @customElement("lit-paginator")
 export class LitPaginator extends LitElement {
   @property({ type: Number }) total = 0;
@@ -43,7 +52,8 @@ export class LitPaginator extends LitElement {
           : html`
               <button
                 class="${page === this.currentPage ? "primary-button" : "secondary-button"}"
-                @click=${() => this.changePage(page)}
+                @click=${(event: MouseEvent) => this.changePage(event, page)}
+                @auxclick=${(event: MouseEvent) => this.changePage(event, page)}
               >
                 ${page}
               </button>
@@ -55,6 +65,10 @@ export class LitPaginator extends LitElement {
   generatePageNumbers(): PageType[] {
     const currentPage = this.currentPage;
     const total = this.total;
+
+    if (total < 1) {
+      return []
+    }
 
     if (this.total <= 6) {
       return Array.from({ length: this.total })
@@ -81,12 +95,21 @@ export class LitPaginator extends LitElement {
     ];
   }
 
-  changePage(page: number): void {
+  changePage(event: MouseEvent, page: number): void {
     if (page < 1 || page > this.total || this.currentPage == page) return;
-    this.currentPage = page;
+
+    const isWheel = event?.which === 2 || event.button === 4;
+
+    if (!isWheel) {
+      this.currentPage = page;
+    }
+
     this.dispatchEvent(
-      new CustomEvent("page-change", {
-        detail: { page },
+      new CustomEvent<OnPageChangeDetails>(LitPaginatorEvent.PageChange, {
+        detail: {
+          page,
+          isMiddleButtonClicked: isWheel,
+        },
       })
     );
   }

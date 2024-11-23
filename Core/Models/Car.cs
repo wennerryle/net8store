@@ -17,4 +17,5 @@ public class Car
   public required string EngineDescription { get; set; }
   public ushort Acceleration { get; set; } // 0 - 100
   public ushort TopSpeed { get; set; }
+  public uint Cost { get; set; }
 }
