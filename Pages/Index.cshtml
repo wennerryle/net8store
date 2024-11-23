@@ -14,6 +14,7 @@
         }
     </h1>
 </section>
+
 @if (Model.carsImages.Length != 0 && Model.CurrentPage == 1) {
     <section class="splide mb-3" aria-label="Cars">
         <div class="splide__track w-content mx-auto rounded-lg">
@@ -21,7 +22,7 @@
                 @foreach (var carImage in Model.carsImages)
                 {
                     <li class="splide__slide">
-                        <img src="@carImage"  />
+                        <img src="@carImage" />
                     </li>
                 }
             </ul>
