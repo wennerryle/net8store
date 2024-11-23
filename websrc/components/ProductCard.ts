@@ -13,6 +13,18 @@ import {
 
 import { EngineKinds } from "../core/EngineKinds.enum";
 
+export const ON_PRODUCT_EVENT = "product-event";
+
+export const enum ProductCardEventsKind {
+  OnBuyClick,
+  OnAddToCartClick,
+}
+
+export interface ProductCardEventDetails {
+  kind: ProductCardEventsKind;
+  productId: number;
+}
+
 @customElement("product-card")
 export class ProductCard extends LitElement {
   static styles = [
@@ -55,13 +67,12 @@ export class ProductCard extends LitElement {
         font-size: 20px;
         font-weight: bold;
         color: #2c5282;
-        margin: 0;
-        margin-bottom: auto;
+        margin: auto 0px 0px;
       }
 
       .product-actions {
         width: 100%;
-        margin-top: 16px;
+        margin-top: 8px;
         display: flex;
         flex-wrap: wrap;
         align-self: flex-end;
@@ -76,9 +87,9 @@ export class ProductCard extends LitElement {
     `,
   ];
 
-  @property() title = "Product Title";
-  @property() description = "Product description goes here";
-  @property() cost = "$0.00";
+  @property() title = "";
+  @property() description = "";
+  @property() cost = "";
   @property() imageUrl: string | null = null;
 
   @property({ type: Number })
@@ -98,13 +109,14 @@ export class ProductCard extends LitElement {
       <h2 class="product-title">${this.title}</h2>
       <p class="product-description">
         ${choose(this.engineKind, [
-          [EngineKinds.Diesel, () => html`Дизель`],
-          [EngineKinds.Gas,    () => html`Газ`],
-          [EngineKinds.Hybrid, () => html`Гибрид`],
-          [EngineKinds.Manual, () => html`Механика`],
-          [EngineKinds.Petrol, () => html`Бензин`],
-          [EngineKinds.Electro, () => html`Электрический`]
-        ])}. ${this.description}
+          [EngineKinds.Diesel,  () => html`Дизель`],
+          [EngineKinds.Gas,     () => html`Газ`],
+          [EngineKinds.Hybrid,  () => html`Гибрид`],
+          [EngineKinds.Manual,  () => html`Механика`],
+          [EngineKinds.Petrol,  () => html`Бензин`],
+          [EngineKinds.Electro, () => html`Электрический`],
+        ])}.
+        ${this.description}
       </p>
       <p class="product-cost">${this.cost}</p>
       <div class="product-actions">
@@ -115,14 +127,35 @@ export class ProductCard extends LitElement {
           Добавить в корзину
         </button>
       </div>
+      <div class="product-actions">
+        <button class="secondary-button">Подробнее</button>
+      </div>
     `;
   }
 
   private _onBuyClick() {
-    this.dispatchEvent(new CustomEvent("buy-click", { detail: { productId: this.productId } }));
+    if (this.productId == null) return;
+
+    this.dispatchEvent(
+      new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
+        detail: {
+          productId: this.productId,
+          kind: ProductCardEventsKind.OnBuyClick
+        },
+      })
+    );
   }
 
   private _onCartClick() {
-    this.dispatchEvent(new CustomEvent("cart-click", { detail: { productId: this.productId } }));
+    if (this.productId == null) return;
+
+    this.dispatchEvent(
+      new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
+        detail: {
+          productId: this.productId,
+          kind: ProductCardEventsKind.OnAddToCartClick,
+        },
+      })
+    );
   }
 }
