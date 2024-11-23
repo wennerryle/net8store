@@ -2,7 +2,6 @@
 //  Use this source code is governed by an MIT license
 //  that can be found in the LICENSE file.
 
-
 import Splide from '@splidejs/splide';
 import "./components";
 import { LitPaginator, LitPaginatorEvent, OnPageChangeDetails } from './components/LitPaginator';
@@ -19,7 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
       heightRatio: 0.5,
       autoplay: true,
       pauseOnHover: true,
-      interval: 2000
+      interval: 2000,
+      resetProgress: true,
     }).mount();
   }
 
