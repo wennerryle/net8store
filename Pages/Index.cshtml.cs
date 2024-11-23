@@ -7,15 +7,13 @@ namespace net8store.Pages;
 
 public class IndexModel : PageModel
 {
-    const short TO_SHOW_CARD_AMOUNT = 10;
+    const short TO_SHOW_CARD_AMOUNT = 9;
     private readonly StoreContext storeContext;
     public IndexModel(StoreContext storeContext)
     {
         this.storeContext = storeContext;
         pagesAmount
             = (uint)Math.Ceiling((double)storeContext.Cars.Count() / TO_SHOW_CARD_AMOUNT);
-
-        Console.WriteLine($"RESULLLLTTT::: {pagesAmount}, {storeContext.Cars.Count()}");
     }
 
     public uint CurrentPage { get; set; } = 1;
