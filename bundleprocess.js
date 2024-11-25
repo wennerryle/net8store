@@ -13,14 +13,20 @@ chokidar.watch("./websrc").on("change", () => {
 });
 
 async function rebuild() {
-  await esbuild.build({
-    entryPoints: ["./websrc/index.ts"],
-    bundle: true,
-    minify: true,
-    sourcemap: "inline",
-    outfile: "./wwwroot/js/bundle.js",
-    legalComments: "none"
-  });
+  try {
+    await esbuild.build({
+      entryPoints: ["./websrc/index.ts"],
+      bundle: true,
+      minify: true,
+      sourcemap: "inline",
+      outfile: "./wwwroot/js/bundle.js",
+      legalComments: "none"
+    });
+  } catch(/** @type {esbuild.BuildFailure} */ error) {
+    // esbuild write error into console
+    console.log("waiting until you fix the error")
+    return;
+  }
 
   console.log("successfully builded!")
 }

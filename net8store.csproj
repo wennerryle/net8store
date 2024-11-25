@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="websrc/customSignals/" />
     <Folder Include="wwwroot/lib/" />
   </ItemGroup>
 
