@@ -14,7 +14,6 @@ public class StoreContext : DbContext
   public StoreContext(DbContextOptions<StoreContext> options, IConfiguration configuration) : base(options)
   {
     this.configuration = configuration;
-    // Database.EnsureDeleted();
     Database.EnsureCreated();
   }
 

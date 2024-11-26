@@ -1,39 +1,35 @@
 ﻿@page "{id:int}"
 @model net8store.Pages.CarModel
+@using net8store.Core.Formatters
 @{
-  ViewData["Title"] = Model.car.Acceleration;
+  ViewData["Title"] = $"{Model.car.Brand} {Model.car.Model}";
 }
 
-<div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
-  <h1 class="text-3xl font-bold text-gray-800 mb-6">@Model.car.ShortDescription</h1>
+<div class="bg-white border rounded-lg p-8 w-content mx-auto">
+  <img src="@Model.car.ImageURL" class="rounded-md mb-7">
+  <h1 class="text-3xl font-bold text-gray-800 mb-2">@ViewData["Title"]</h1>
 
-  <div class="grid grid-cols-2 gap-4 mb-6">
-    <div>
-      <h2 class="font-semibold text-gray-600">Full Description</h2>
-      <p class="text-gray-800">@Model.car.FullDescription</p>
-    </div>
-    <div>
-      <h2 class="font-semibold text-gray-600">Engine Details</h2>
-      <p class="text-gray-800">
-        Type: @Model.car.EngineKind<br>
-        Description: @Model.car.EngineDescription
-      </p>
-    </div>
+  <div class="my-2">
+    <h2 class="font-semibold text-gray-600">Описание</h2>
+    <p class="text-gray-800">@Model.car.FullDescription</p>
   </div>
-
-  <div class="grid grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
-    <div>
-      <h3 class="font-semibold text-gray-600">Performance</h3>
-      <ul class="space-y-2">
-        <li>
-          <span class="font-medium text-gray-700">Acceleration (0-100):</span>
-          <span class="text-gray-800">@Model.car.Acceleration sec</span>
-        </li>
-        <li>
-          <span class="font-medium text-gray-700">Top Speed:</span>
-          <span class="text-gray-800">@Model.car.TopSpeed km/h</span>
-        </li>
-      </ul>
-    </div>
+  <div>
+    <h2 class="font-semibold text-gray-600">Об двигателе</h2>
+    <p class="text-gray-800">
+      <span class="font-medium text-gray-700">Тип:</span>
+      @Model.car.EngineKind.Format(), @Model.car.EngineDescription
+    </p>
+  </div>
+  <div>
+    <ul>
+      <li>
+        <span class="font-medium text-gray-700">Разгон (0-100):</span>
+        <span class="text-gray-800">@Model.car.Acceleration с.</span>
+      </li>
+      <li>
+        <span class="font-medium text-gray-700">Максимальная скорость:</span>
+        <span class="text-gray-800">@Model.car.TopSpeed км/ч</span>
+      </li>
+    </ul>
   </div>
 </div>

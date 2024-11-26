@@ -28,6 +28,6 @@ function onCardEvent({ detail }: CustomEvent<ProductCardEventDetails>) {
       alert("on buy")
     })
     .with(ProductCardEventsKind.OnDetailsClick, () => {
-      alert("on details click")
+      location.pathname = "/Car/" + productId;
     });
 }

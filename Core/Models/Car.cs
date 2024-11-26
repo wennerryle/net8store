@@ -13,7 +13,7 @@ public class Car
   public required string ShortDescription { get; set; }
   public required string FullDescription { get; set; }
   public required string ImageURL { get; set; }
-  public EngineKinds EngineKind { get; set; }
+  public EngineKind EngineKind { get; set; }
   public required string EngineDescription { get; set; }
   public ushort Acceleration { get; set; } // 0 - 100
   public ushort TopSpeed { get; set; }
