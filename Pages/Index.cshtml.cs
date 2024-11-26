@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using net8store.Core;
@@ -18,7 +17,6 @@ public class IndexModel : PageModel
 
     public uint CurrentPage { get; set; } = 1;
 
-
     public required Core.Models.Car[] cars;
     public required string[] carsImages;
     public uint pagesAmount = 0;
@@ -34,7 +32,6 @@ public class IndexModel : PageModel
             return NotFound();
 
         carsImages = [.. storeContext.Cars.Select(car => car.ImageURL).Take(TO_SHOW_CARD_AMOUNT)];
-
 
         cars = storeContext
                 .Cars

@@ -2,7 +2,7 @@
 @using net8store.Core.Enums
 @model IndexModel
 @{
-    ViewData["Title"] = "Главная страница";
+    ViewData["Title"] = "Главная";
 }
 
 <section class="w-content mx-auto">
@@ -33,7 +33,7 @@
 <div class="grid w-content mx-auto grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     @foreach (var car in @Model.cars)
     {
-        @: <product-card id="@car.CarId" description="@car.ShortDescription" cost="@car.Cost руб." title="@car.Brand @car.Model" imageurl = "@car.ImageURL" enginekind="@((int)car.EngineKind)"></product-card>
+        @: <product-card productid="@car.CarId" description="@car.ShortDescription" cost="@car.Cost руб." title="@car.Brand @car.Model" imageurl = "@car.ImageURL" enginekind="@((int)car.EngineKind)"></product-card>
     }
 </div>
 
