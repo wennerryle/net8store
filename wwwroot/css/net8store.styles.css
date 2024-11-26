@@ -1,3 +1,23 @@
+.splide__arrow {
+  opacity: 1;
+  background-color: rgba(1, 29, 63, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 0.1s;
+}
+
+.splide__arrow:disabled {
+  opacity: 1;
+}
+
+.splide__arrow:hover:not(:disabled) {
+  opacity: 1;
+}
+
+.splide__arrow svg {
+  fill: #fff;
+}
+
 .splide__slide:first-child {
   width: 100%;
   height: auto;
