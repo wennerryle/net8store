@@ -1,4 +1,4 @@
-import { autoUpdate, computePosition, offset } from "@floating-ui/dom";
+import { autoUpdate, computePosition, offset, shift } from "@floating-ui/dom";
 import { onHover } from "../customSignals/onHover";
 import { computed } from "@preact/signals-core";
 
@@ -18,8 +18,9 @@ export async function initAboutUsPopover() {
       middleware: [
         offset(({ rects }) => ({
           mainAxis: 18,
-          alignmentAxis: -(rects.floating.width / 2) + rects.reference.width,
+          alignmentAxis: rects.reference.width - rects.floating.width / 2,
         })),
+        shift()
       ],
     });
 
@@ -39,7 +40,24 @@ export async function initAboutUsPopover() {
     )
   );
 
-  isAnyHovered.subscribe((isAnyHovered) => {
-    carsPopover.style.display = isAnyHovered ? "block" : "none";
+  const animation: Keyframe[] = [
+    { opacity: 0 },
+    { opacity: 1 }
+  ];
+
+  const animationOptions: KeyframeAnimationOptions = {
+    duration: 200,
+    easing: "cubic-bezier(0, 0, 0.2, 1)"
+  };
+
+  isAnyHovered.subscribe(async (isAnyHovered) => {
+    if (isAnyHovered) {
+      carsPopover.style.display = "block";
+      carsPopover.animate(animation, animationOptions);
+      return;
+    }
+
+    await carsPopover.animate(animation.toReversed(), animationOptions).finished;
+    carsPopover.style.display = "none";
   })
 }
