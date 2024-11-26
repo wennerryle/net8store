@@ -14,10 +14,12 @@ import {
 import { EngineKinds } from "../core/EngineKinds.enum";
 
 export const ON_PRODUCT_EVENT = "product-event";
+export const PRODUCT_CARD_COMPONENT_NAME = "product-card";
 
 export const enum ProductCardEventsKind {
   OnBuyClick,
   OnAddToCartClick,
+  OnDetailsClick
 }
 
 export interface ProductCardEventDetails {
@@ -25,7 +27,7 @@ export interface ProductCardEventDetails {
   productId: number;
 }
 
-@customElement("product-card")
+@customElement(PRODUCT_CARD_COMPONENT_NAME)
 export class ProductCard extends LitElement {
   static styles = [
     buttonBase,
@@ -128,7 +130,7 @@ export class ProductCard extends LitElement {
         </button>
       </div>
       <div class="product-actions">
-        <button class="secondary-button">Подробнее</button>
+        <button class="secondary-button" @click=${this._onDetailsClick}>Подробнее</button>
       </div>
     `;
   }
@@ -157,5 +159,18 @@ export class ProductCard extends LitElement {
         },
       })
     );
+  }
+
+  private _onDetailsClick() {
+    if (this.productId == null) return;
+
+    this.dispatchEvent(
+      new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
+        detail: {
+          productId: this.productId,
+          kind: ProductCardEventsKind.OnDetailsClick
+        }
+      })
+    )
   }
 }
