@@ -1,4 +1,4 @@
-import { signal, Signal } from "@preact/signals-core";
+import { signal, type Signal } from "@preact/signals-core";
 
 export function onHover(target: HTMLElement, debounce: number = 0): Signal<boolean> {
   let timeoutId = -1;

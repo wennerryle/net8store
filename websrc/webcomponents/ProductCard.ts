@@ -2,31 +2,94 @@
 //  Use this source code is governed by an MIT license
 //  that can be found in the LICENSE file.
 
-import { css, html, LitElement } from "lit";
-import { customElement, property } from "lit/decorators.js";
-import { choose } from "lit/directives/choose.js";
+import { css, html, LitElement, PropertyValues } from "lit";
+import { customElement, property, state } from "lit/decorators.js";
 import {
   buttonBase,
   primaryButton,
   secondaryButton,
 } from "../styles/button-styles";
 
-import { EngineKinds } from "../core/EngineKinds.enum";
+import {
+  EngineKind,
+  engineKindToString,
+} from "../core/models/EngineKinds.enum";
 
-export const ON_PRODUCT_EVENT = "product-event";
-export const PRODUCT_CARD_COMPONENT_NAME = "product-card";
+type ProductCounterChangedEvent = CustomEvent<{ amount: number }>;
+@customElement("product-counter")
+export class ProductCounter extends LitElement {
+  static readonly COUNTER_CHANGED_EVENT = "counter-changed";
+  static styles = [
+    buttonBase,
+    primaryButton,
+    secondaryButton,
+    css`
+      :host {
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        column-gap: 8px;
+        text-align: center;
+      }
+
+      span {
+        height: min-content;
+        width: 40px;
+      }
+
+      input {
+        border-radius: 6px;
+        border: solid 1px #e5e7eb;
+        padding: 0 6px;
+        height: 30px;
+        flex: 1;
+      }
+    `,
+  ];
+
+  constructor() {
+    super();
+  }
+
+  @state() amount = 1;
+
+  protected shouldUpdate(propertyValues: PropertyValues): boolean {
+    this.dispatchEvent(
+      new CustomEvent(ProductCounter.COUNTER_CHANGED_EVENT, {
+        detail: { amount: this.amount },
+      })
+    );
+
+    return super.shouldUpdate(propertyValues);
+  }
+
+  render() {
+    return html`
+      <button @click=${() => this.amount--} class="primary-button">-</button>
+      <button @click=${() => this.amount++} class="primary-button">+</button>
+      <input type="number" @input=${(
+        event: { target: HTMLInputElement }
+      ) => {
+        this.amount = Number(event.target.value)
+      }} .value=${this.amount.toString()}></input>
+    `;
+  }
+}
 
 export const enum ProductCardEventsKind {
   OnBuyClick,
-  OnAddToCartClick,
-  OnDetailsClick
+  OnProductAmountChanged,
+  OnDetailsClick,
 }
 
 export interface ProductCardEventDetails {
   kind: ProductCardEventsKind;
   productId: number;
+  amount?: number;
 }
 
+export const PRODUCT_CARD_COMPONENT_NAME = "product-card";
+export const ON_PRODUCT_EVENT = "product-event";
 @customElement(PRODUCT_CARD_COMPONENT_NAME)
 export class ProductCard extends LitElement {
   static styles = [
@@ -77,16 +140,13 @@ export class ProductCard extends LitElement {
         margin-top: 8px;
         display: flex;
         flex-wrap: wrap;
-        align-self: flex-end;
         gap: 8px;
       }
 
-      .primary-button,
-      .secondary-button {
+      .product-actions > * {
         flex: 1;
         min-width: max-content;
-      }
-    `,
+      }`,
   ];
 
   @property() title = "";
@@ -98,51 +158,57 @@ export class ProductCard extends LitElement {
   productId: number | null = null;
 
   @property({ type: Number })
-  engineKind: EngineKinds | null = null;
+  engineKind: EngineKind | null = null;
+
+  @property({ type: Number }) amount: number = 0;
+
+  private _onCounterChanged({ detail }: ProductCounterChangedEvent) {
+    this.amount = detail.amount;
+    this._raiseOnAmountChanged();
+  }
 
   render() {
+    if (!this.engineKind || !this.imageUrl) return null;
+    console.log(this.amount >= 1);
+
     return html`
-      ${this.imageUrl &&
-      html`<img
-        class="product-image"
-        src=${this.imageUrl}
-        alt=${this.title}
-      />`}
+      <img class="product-image" src=${this.imageUrl} alt=${this.title} />
       <h2 class="product-title">${this.title}</h2>
       <p class="product-description">
-        ${choose(this.engineKind, [
-          [EngineKinds.Diesel,  () => html`Дизель`],
-          [EngineKinds.Gas,     () => html`Газ`],
-          [EngineKinds.Hybrid,  () => html`Гибрид`],
-          [EngineKinds.Manual,  () => html`Механика`],
-          [EngineKinds.Petrol,  () => html`Бензин`],
-          [EngineKinds.Electro, () => html`Электрический`],
-        ])}.
-        ${this.description}
+        ${engineKindToString(this.engineKind)}. ${this.description}
       </p>
       <p class="product-cost">${this.cost}</p>
       <div class="product-actions">
         <button class="primary-button" @click=${this._onBuyClick}>
           Купить сейчас
         </button>
-        <button class="secondary-button" @click=${this._onCartClick}>
-          Добавить в корзину
-        </button>
+        ${this.amount >= 1
+          ? html`<product-counter
+              amount=${this.amount}
+              @counter-changed=${this._onCounterChanged}
+            ></product-counter>`
+          : html`<button class="secondary-button" @click=${this._onCartClick}>
+              Добавить в корзину
+            </button>`}
       </div>
       <div class="product-actions">
-        <button class="secondary-button" @click=${this._onDetailsClick}>Подробнее</button>
+        <button class="secondary-button" @click=${this._onDetailsClick}>
+          Подробнее
+        </button>
       </div>
     `;
   }
 
   private _onBuyClick() {
     if (this.productId == null) return;
+    if (this.amount == null) return;
 
     this.dispatchEvent(
       new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
         detail: {
           productId: this.productId,
-          kind: ProductCardEventsKind.OnBuyClick
+          kind: ProductCardEventsKind.OnBuyClick,
+          amount: this.amount,
         },
       })
     );
@@ -151,11 +217,18 @@ export class ProductCard extends LitElement {
   private _onCartClick() {
     if (this.productId == null) return;
 
+    this.amount = 1;
+
+    this._raiseOnAmountChanged();
+  }
+
+  private _raiseOnAmountChanged() {
     this.dispatchEvent(
       new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
         detail: {
-          productId: this.productId,
-          kind: ProductCardEventsKind.OnAddToCartClick,
+          productId: this.productId!,
+          kind: ProductCardEventsKind.OnProductAmountChanged,
+          amount: this.amount,
         },
       })
     );
@@ -168,9 +241,9 @@ export class ProductCard extends LitElement {
       new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
         detail: {
           productId: this.productId,
-          kind: ProductCardEventsKind.OnDetailsClick
-        }
+          kind: ProductCardEventsKind.OnDetailsClick,
+        },
       })
-    )
+    );
   }
 }
