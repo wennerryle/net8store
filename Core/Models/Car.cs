@@ -1,5 +1,3 @@
-using System;
-
 namespace net8store.Core.Models;
 using net8store.Core.Enums;
 using System.ComponentModel.DataAnnotations;
