@@ -7,7 +7,7 @@ namespace net8store.Core;
 public class StoreContext : DbContext
 {
   public DbSet<Car> Cars { get; set; } = null!;
-  public DbSet<UserCart> UserCarts { get; set; } = null!;
+  public DbSet<OrderDetail> OrderDetails { get; set; } = null!;
 
   private readonly IConfiguration configuration;
 
