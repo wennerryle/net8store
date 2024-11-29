@@ -18,11 +18,11 @@ export default function initCardEventHandlers() {
 }
 
 function onCardEvent({ detail }: CustomEvent<ProductCardEventDetails>) {
-  const { kind, productId } = detail;
+  const { kind, productId, amount } = detail;
 
   match(kind)
-    .with(ProductCardEventsKind.OnAddToCartClick, () => {
-      alert("on add cart")
+    .with(ProductCardEventsKind.OnProductAmountChanged, () => {
+      
     })
     .with(ProductCardEventsKind.OnBuyClick, () => {
       alert("on buy")

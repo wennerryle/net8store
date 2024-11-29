@@ -21,8 +21,6 @@ export const createLocalStorageSignal = <T>(
   localStorageKey: string,
   initialValue: T & AsJson<T>
 ) => {
-  let ignoreNextUpdate = false;
-
   const getValue = () => {
     const localValue = localStorage.getItem(localStorageKey);
     let result = initialValue;
@@ -43,17 +41,16 @@ export const createLocalStorageSignal = <T>(
   const store = signal<T>(getValue());
 
   const storageListener = ({ key }: StorageEvent) => {
-    if (key === localStorageKey && !ignoreNextUpdate) {
+    if (key === localStorageKey) {
       store.value = getValue();
     }
-
-    ignoreNextUpdate = false;
   };
 
+  // This event is fired only when localStorage is changed in another
+  // page AND the new value is not the same as the old value.
   window.addEventListener("storage", storageListener);
 
   store.subscribe((pojo) => {
-    ignoreNextUpdate = true;
     localStorage.setItem(localStorageKey, JSON.stringify(pojo));
 
     return () => window.removeEventListener("storage", storageListener);
