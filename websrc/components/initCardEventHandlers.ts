@@ -2,9 +2,9 @@ import { match } from "ts-pattern";
 import {
   ON_PRODUCT_EVENT,
   PRODUCT_CARD_COMPONENT_NAME,
+  ProductCard,
   ProductCardEventDetails,
   ProductCardEventsKind,
-  type ProductCard,
 } from "../webcomponents/ProductCard";
 
 export default function initCardEventHandlers() {
@@ -22,7 +22,7 @@ function onCardEvent({ detail }: CustomEvent<ProductCardEventDetails>) {
 
   match(kind)
     .with(ProductCardEventsKind.OnProductAmountChanged, () => {
-      
+      alert(amount);
     })
     .with(ProductCardEventsKind.OnBuyClick, () => {
       alert("on buy")

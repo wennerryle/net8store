@@ -15,6 +15,9 @@ import {
   engineKindToString,
 } from "../core/models/EngineKinds.enum";
 
+import { ProductId, ProductsAmount } from "../core/signals/cart";
+import { watch, computed } from "@lit-labs/preact-signals";
+
 type ProductCounterChangedEvent = CustomEvent<{ amount: number }>;
 @customElement("product-counter")
 export class ProductCounter extends LitElement {
@@ -22,11 +25,11 @@ export class ProductCounter extends LitElement {
   static styles = [
     buttonBase,
     primaryButton,
-    secondaryButton,
     css`
       :host {
         display: flex;
         align-items: center;
+        justify-content: stretch;
         border-radius: 4px;
         column-gap: 8px;
         text-align: center;
@@ -42,7 +45,7 @@ export class ProductCounter extends LitElement {
         border: solid 1px #e5e7eb;
         padding: 0 6px;
         height: 30px;
-        flex: 1;
+        width: 100%;
       }
     `,
   ];
@@ -51,28 +54,36 @@ export class ProductCounter extends LitElement {
     super();
   }
 
-  @state() amount = 1;
-
-  protected shouldUpdate(propertyValues: PropertyValues): boolean {
-    this.dispatchEvent(
-      new CustomEvent(ProductCounter.COUNTER_CHANGED_EVENT, {
-        detail: { amount: this.amount },
-      })
-    );
-
-    return super.shouldUpdate(propertyValues);
-  }
+  @property({ type: Number }) amount = 1;
 
   render() {
     return html`
-      <button @click=${() => this.amount--} class="primary-button">-</button>
-      <button @click=${() => this.amount++} class="primary-button">+</button>
+      <button @click=${this._add} class="primary-button">-</button>
+      <button @click=${this._minus} class="primary-button">+</button>
       <input type="number" @input=${(
         event: { target: HTMLInputElement }
       ) => {
         this.amount = Number(event.target.value)
       }} .value=${this.amount.toString()}></input>
     `;
+  }
+
+  private _add() {
+    this.amount--;
+    this._raiseEvent();
+  }
+
+  private _minus() {
+    this.amount++;
+    this._raiseEvent();
+  }
+
+  private _raiseEvent() {
+    this.dispatchEvent(
+      new CustomEvent(ProductCounter.COUNTER_CHANGED_EVENT, {
+        detail: { amount: this.amount },
+      })
+    );
   }
 }
 
@@ -90,13 +101,7 @@ export interface ProductCardEventDetails {
 
 export const PRODUCT_CARD_COMPONENT_NAME = "product-card";
 export const ON_PRODUCT_EVENT = "product-event";
-@customElement(PRODUCT_CARD_COMPONENT_NAME)
-export class ProductCard extends LitElement {
-  static styles = [
-    buttonBase,
-    primaryButton,
-    secondaryButton,
-    css`
+const productCardStyles = css`
       :host {
         display: flex;
         flex-direction: column;
@@ -141,13 +146,22 @@ export class ProductCard extends LitElement {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-      }
-
-      .product-actions > * {
-        flex: 1;
-        min-width: max-content;
-      }`,
+      }`
+@customElement(PRODUCT_CARD_COMPONENT_NAME)
+export class ProductCard extends LitElement {
+  static styles = [
+    buttonBase,
+    primaryButton,
+    secondaryButton,
+    productCardStyles,
   ];
+
+  static instances = new WeakSet<ProductCard>;
+
+  constructor() {
+    super();
+    ProductCard.instances.add(this);
+  }
 
   @property() title = "";
   @property() description = "";
@@ -160,16 +174,35 @@ export class ProductCard extends LitElement {
   @property({ type: Number })
   engineKind: EngineKind | null = null;
 
-  @property({ type: Number }) amount: number = 0;
+  @state() amount = 0;
 
   private _onCounterChanged({ detail }: ProductCounterChangedEvent) {
-    this.amount = detail.amount;
-    this._raiseOnAmountChanged();
+    ProductsAmount.value =  { ...ProductsAmount.peek(), [this.productId!]: detail.amount };
+  }
+
+  disposables: (() => void)[] = [];
+
+  connectedCallback(): void {
+    super.connectedCallback();
+    const subscription =
+      ProductsAmount.subscribe(pa => {
+        if (!this.productId) return;
+        this.amount = pa[this.productId as ProductId];
+        console.log(pa);
+      })
+    
+    this.disposables.push(subscription);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.disposables.forEach(it => it());
   }
 
   render() {
     if (!this.engineKind || !this.imageUrl) return null;
-    console.log(this.amount >= 1);
+    const productAmount = watch(computed(() =>
+      ProductsAmount.value[this.productId as ProductId]));
 
     return html`
       <img class="product-image" src=${this.imageUrl} alt=${this.title} />
@@ -179,20 +212,23 @@ export class ProductCard extends LitElement {
       </p>
       <p class="product-cost">${this.cost}</p>
       <div class="product-actions">
-        <button class="primary-button" @click=${this._onBuyClick}>
+        <button class="primary-button" style="width: 100%" @click=${this._onBuyClick}>
           Купить сейчас
         </button>
         ${this.amount >= 1
-          ? html`<product-counter
+          ? html`
+            <product-counter
+              style="width: 100%"
               amount=${this.amount}
-              @counter-changed=${this._onCounterChanged}
-            ></product-counter>`
-          : html`<button class="secondary-button" @click=${this._onCartClick}>
+              @counter-changed=${this._onCounterChanged}>
+            </product-counter>`
+          : html`
+            <button class="secondary-button" style="width: 100%" @click=${this._onCartClick}>
               Добавить в корзину
             </button>`}
       </div>
       <div class="product-actions">
-        <button class="secondary-button" @click=${this._onDetailsClick}>
+        <button class="secondary-button" style="width: 100%" @click=${this._onDetailsClick}>
           Подробнее
         </button>
       </div>
@@ -201,14 +237,13 @@ export class ProductCard extends LitElement {
 
   private _onBuyClick() {
     if (this.productId == null) return;
-    if (this.amount == null) return;
 
     this.dispatchEvent(
       new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
         detail: {
           productId: this.productId,
           kind: ProductCardEventsKind.OnBuyClick,
-          amount: this.amount,
+          amount: ProductsAmount.peek()[this.productId as ProductId],
         },
       })
     );
@@ -217,21 +252,7 @@ export class ProductCard extends LitElement {
   private _onCartClick() {
     if (this.productId == null) return;
 
-    this.amount = 1;
-
-    this._raiseOnAmountChanged();
-  }
-
-  private _raiseOnAmountChanged() {
-    this.dispatchEvent(
-      new CustomEvent<ProductCardEventDetails>(ON_PRODUCT_EVENT, {
-        detail: {
-          productId: this.productId!,
-          kind: ProductCardEventsKind.OnProductAmountChanged,
-          amount: this.amount,
-        },
-      })
-    );
+    ProductsAmount.value =  { ...ProductsAmount.peek(), [this.productId]: 1 };
   }
 
   private _onDetailsClick() {

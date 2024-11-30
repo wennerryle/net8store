@@ -3,7 +3,7 @@
 //  that can be found in the LICENSE file.
 //  Inspired by https://github.com/Budibase/budibase/blob/master/packages/frontend-core/src/stores/localStorage.js
 
-import { signal } from "@preact/signals-core";
+import { signal } from "@lit-labs/preact-signals";
 
 type AsJson<T> = T extends string | number | boolean | null
   ? T
@@ -33,6 +33,7 @@ export const createLocalStorageSignal = <T>(
           "[createLocalStorageSignal]: cannot JSON.parse value by key " +
             localStorageKey
         );
+        console.trace();
       }
     }
     return result;

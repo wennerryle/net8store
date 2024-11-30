@@ -1,5 +1,5 @@
 import { v4 as uuidv4, validate as validateUUID } from "uuid";
-import { createLocalStorageSignal } from "./localStorage";
+import { createLocalStorageSignal } from "../customSignals/localStorage";
 
 const UUID_KEY = "uuid_key|someuntropia32423904";
 
