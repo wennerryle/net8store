@@ -21,12 +21,6 @@ function onCardEvent({ detail }: CustomEvent<ProductCardEventDetails>) {
   const { kind, productId, amount } = detail;
 
   match(kind)
-    .with(ProductCardEventsKind.OnProductAmountChanged, () => {
-      alert(amount);
-    })
-    .with(ProductCardEventsKind.OnBuyClick, () => {
-      alert("on buy")
-    })
     .with(ProductCardEventsKind.OnDetailsClick, () => {
       location.pathname = "/Car/" + productId;
     });

@@ -201,8 +201,6 @@ export class ProductCard extends LitElement {
 
   render() {
     if (!this.engineKind || !this.imageUrl) return null;
-    const productAmount = watch(computed(() =>
-      ProductsAmount.value[this.productId as ProductId]));
 
     return html`
       <img class="product-image" src=${this.imageUrl} alt=${this.title} />
@@ -210,7 +208,7 @@ export class ProductCard extends LitElement {
       <p class="product-description">
         ${engineKindToString(this.engineKind)}. ${this.description}
       </p>
-      <p class="product-cost">${this.cost}</p>
+      <p class="product-cost">${this.getFormattedCost()}</p>
       <div class="product-actions">
         <button class="primary-button" style="width: 100%" @click=${this._onBuyClick}>
           Купить сейчас
@@ -233,6 +231,19 @@ export class ProductCard extends LitElement {
         </button>
       </div>
     `;
+  }
+
+  private getFormattedCost() {
+    const cost = Number(this.cost);
+
+    if ((cost << 0) < cost) {
+      return Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'rub'
+      }).format(cost)
+    }
+    
+    return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'rub', maximumFractionDigits: 0 }).format(Number(this.cost))
   }
 
   private _onBuyClick() {

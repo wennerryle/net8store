@@ -44,7 +44,12 @@
                         О нас
                     </a>
                 </li>
-                <li><a href="/cart">Корзина</a></li>
+                <li>
+                    <button class="text-dark" id="autos_link">
+                        Автомобили
+                    </button>
+                </li>
+                <li><a href="/Cart">Корзина</a></li>
             </ul>
         </nav>
     </header>
@@ -58,6 +63,23 @@
             <a asp-area="" asp-page="/Privacy"
                class="border px-2 py-1 rounded-b-md w-full transition-colors hover:bg-[#2c5282] hover:text-white">
                 Политика кондефциальности
+            </a>
+        </ul>
+    </nav>
+    <nav class="fixed hidden p-3 h-max z-10 w-max border bg-white bg-opacity-80 backdrop-blur-3xl rounded-[.775em]"
+        id="autos-popover">
+        <ul class="flex flex-col">
+            <a asp-area="" asp-page="/Car/Add"
+               class="border border-b-0 px-2 py-1 rounded-t-md w-full transition-colors hover:bg-[#2c5282] hover:text-white">
+                Добавить автомобиль
+            </a>
+            <a asp-area="" asp-page="/Privacy"
+               class="border px-2 py-1 w-full transition-colors hover:bg-[#2c5282] hover:text-white">
+                Добавить категорию
+            </a>
+            <a asp-area="" asp-page="/Privacy"
+               class="border px-2 py-1 rounded-b-md w-full transition-colors hover:bg-[#2c5282] hover:text-white">
+                Категории
             </a>
         </ul>
     </nav>

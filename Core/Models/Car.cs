@@ -6,14 +6,16 @@ public class Car
 {
   [Key]
   public int CarId { get; set; }
-  public required string Brand { get; set; }
-  public required string Model { get; set; }
-  public required string ShortDescription { get; set; }
-  public required string FullDescription { get; set; }
-  public required string ImageURL { get; set; }
+  public string Brand { get; set; } = string.Empty;
+  public string Model { get; set; } = string.Empty;
+  public string ShortDescription { get; set; } = string.Empty;
+  public string FullDescription { get; set; } = string.Empty;
+  public string ImageURL { get; set; } = string.Empty;
   public EngineKind EngineKind { get; set; }
-  public required string EngineDescription { get; set; }
-  public ushort Acceleration { get; set; } // 0 - 100
+  public string EngineDescription { get; set; } = string.Empty;
+
+  [Range(1, ushort.MaxValue, ErrorMessage = "Разрешены только позитивные числа")]
+  public double Acceleration { get; set; } // 0 - 100
   public ushort TopSpeed { get; set; }
-  public uint Cost { get; set; }
+  public ulong Cost { get; set; }
 }

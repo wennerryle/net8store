@@ -7,10 +7,21 @@ export { computePosition, flip, shift, offset, arrow } from "@floating-ui/dom";
 const carsPopoverId = "cars-popover";
 const aboutUsLinkId = "about_us_link";
 
-export async function initAboutUsPopover() {
-  const carsPopover = document.getElementById(carsPopoverId)!;
-  const aboutUsLink = document.getElementById(aboutUsLinkId)!;
+const autosId = "autos_link";
+const autosPopoverId = "autos-popover";
 
+export async function initAboutUsPopover() {
+  const aboutUsPopover = document.getElementById(carsPopoverId)!;
+  const aboutUsLink = document.getElementById(aboutUsLinkId)!;
+  const autosLink = document.getElementById(autosId)!;
+  const autosPopover = document.getElementById(autosPopoverId)!;
+
+  initHeaderSubmenu(aboutUsPopover, aboutUsLink);
+  initHeaderSubmenu(autosPopover, autosLink);
+}
+
+
+function initHeaderSubmenu(carsPopover: HTMLElement, aboutUsLink: HTMLElement) {
   async function updatePos() {
     const { x, y } = await computePosition(aboutUsLink, carsPopover, {
       placement: "bottom-start",
