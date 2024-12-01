@@ -210,9 +210,6 @@ export class ProductCard extends LitElement {
       </p>
       <p class="product-cost">${this.getFormattedCost()}</p>
       <div class="product-actions">
-        <button class="primary-button" style="width: 100%" @click=${this._onBuyClick}>
-          Купить сейчас
-        </button>
         ${this.amount >= 1
           ? html`
             <product-counter
@@ -221,7 +218,7 @@ export class ProductCard extends LitElement {
               @counter-changed=${this._onCounterChanged}>
             </product-counter>`
           : html`
-            <button class="secondary-button" style="width: 100%" @click=${this._onCartClick}>
+            <button class="primary-button" style="width: 100%" @click=${this._onCartClick}>
               Добавить в корзину
             </button>`}
       </div>

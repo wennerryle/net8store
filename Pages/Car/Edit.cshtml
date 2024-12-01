@@ -1,0 +1,85 @@
+﻿@page "{carId:long}"
+@using net8store.Core.Enums
+@model net8store.Pages.Car.EditModel
+
+<div class="w-content mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-6">Добавить новый автомобиль</h2>
+
+    <form method="post" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label asp-for="Car.Brand" class="block text-sm font-medium text-gray-700">Марка</label>
+                <input asp-for="Car.Brand" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.Brand" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.Model" class="block text-sm font-medium text-gray-700">Модель</label>
+                <input asp-for="Car.Model" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.Model" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Car.ShortDescription" class="block text-sm font-medium text-gray-700">Краткое описание</label>
+                <input asp-for="Car.ShortDescription" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.ShortDescription" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Car.FullDescription" class="block text-sm font-medium text-gray-700">Полное описание</label>
+                <textarea asp-for="Car.FullDescription" rows="4" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required></textarea>
+                <span asp-validation-for="Car.FullDescription" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div class="md:col-span-2">
+                <label asp-for="Car.ImageURL" class="block text-sm font-medium text-gray-700">URL изображения</label>
+                <input asp-for="Car.ImageURL" type="url" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.ImageURL" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.EngineKind" class="block text-sm font-medium text-gray-700">Тип двигателя</label>
+                <select asp-for="Car.EngineKind" asp-items="Html.GetEnumSelectList<EngineKind>()" 
+                        class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                </select>
+                <span asp-validation-for="Car.EngineKind" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.EngineDescription" class="block text-sm font-medium text-gray-700">Описание двигателя</label>
+                <input asp-for="Car.EngineDescription" class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.EngineDescription" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.Acceleration" class="block text-sm font-medium text-gray-700">Разгон до 100 км/ч (сек)</label>
+                <input asp-for="Car.Acceleration" type="number" min="0" max="100" step="0.1" 
+                       class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.Acceleration" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.TopSpeed" class="block text-sm font-medium text-gray-700">Максимальная скорость (км/ч)</label>
+                <input asp-for="Car.TopSpeed" type="number" min="0" max="500" 
+                       class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.TopSpeed" class="text-red-500 text-sm"></span>
+            </div>
+
+            <div>
+                <label asp-for="Car.Cost" class="block text-sm font-medium text-gray-700">Стоимость (₽)</label>
+                <input asp-for="Car.Cost" type="number" min="0" step="1000" 
+                       class="p-2 mt-1 border block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500" required />
+                <span asp-validation-for="Car.Cost" class="text-red-500 text-sm"></span>
+            </div>
+        </div>
+
+        <div class="flex justify-end space-x-4">
+            <a href="/" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">
+                Отмена
+            </a>
+            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700">
+                Сохранить изменения
+            </button>
+        </div>
+    </form>
+</div>
