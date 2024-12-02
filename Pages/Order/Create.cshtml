@@ -1,0 +1,59 @@
+﻿@page
+@model net8store.Pages.Order.CreateModel
+@{
+}
+
+<div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+    <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+        <div class="relative px-4 py-10 bg-white mx-8 md:mx-0 shadow rounded-3xl sm:p-10">
+            <div class="max-w-md mx-auto">
+                <div class="flex items-center space-x-5">
+                    <div class="block pl-2 font-semibold text-xl text-gray-700">
+                        <h2 class="leading-relaxed">Оформление заказа</h2>
+                        <p class="text-sm text-gray-500 font-normal leading-relaxed">Пожалуйста, заполните форму для оформления заказа</p>
+                    </div>
+                </div>
+
+                <form asp-action="CreateOrder" method="post" class="divide-y divide-gray-200">
+                    <div class="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                        <div class="flex flex-col">
+                            <label asp-for="Order.Name" class="leading-loose">Имя</label>
+                            <input asp-for="Order.Name" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Введите ваше имя">
+                            <span asp-validation-for="Order.Name" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label asp-for="Order.Surname" class="leading-loose">Фамилия</label>
+                            <input asp-for="Order.Surname" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="Введите вашу фамилию">
+                            <span asp-validation-for="Order.Surname" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label asp-for="Order.Email" class="leading-loose">Email</label>
+                            <input asp-for="Order.Email" type="email" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="email@example.com">
+                            <span asp-validation-for="Order.Email" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label asp-for="Order.Phone" class="leading-loose">Телефон</label>
+                            <input asp-for="Order.Phone" type="tel" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" placeholder="+7XXXXXXXXXX">
+                            <span asp-validation-for="Order.Phone" class="text-red-500 text-sm"></span>
+                        </div>
+
+                        <div class="flex flex-col">
+                            <label asp-for="Order.Adress" class="leading-loose">Адрес доставки</label>
+                            <textarea asp-for="Order.Adress" class="px-4 py-2 border focus:ring-gray-500 focus:border-gray-900 w-full sm:text-sm border-gray-300 rounded-md focus:outline-none text-gray-600" rows="3" placeholder="Введите адрес доставки"></textarea>
+                            <span asp-validation-for="Order.Adress" class="text-red-500 text-sm"></span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center space-x-4">
+                        <button class="bg-blue-500 flex justify-center items-center w-full text-white px-4 py-3 rounded-md focus:outline-none hover:bg-blue-600 transition-colors">
+                            Оформить заказ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

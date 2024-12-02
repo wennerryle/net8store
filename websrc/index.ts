@@ -7,10 +7,12 @@ import { initCarousel } from './components/initCarousel';
 import { initAboutUsPopover } from "./components/initHeaderSubmenu";
 import initCardEventHandlers from "./components/initCardEventHandlers";
 import { initPaginateHandler } from "./components/initPaginateHandler";
+import { initCart } from "./components/initCart";
 
 window.addEventListener('DOMContentLoaded', () => {
   initAboutUsPopover();
   initCardEventHandlers();
   initCarousel();
   initPaginateHandler();
+  initCart();
 }, { once: true })

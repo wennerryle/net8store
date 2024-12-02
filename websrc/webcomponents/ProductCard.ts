@@ -17,6 +17,7 @@ import {
 
 import { ProductId, ProductsAmount } from "../core/signals/cart";
 import { watch, computed } from "@lit-labs/preact-signals";
+import formatPrice from "../core/priceFormatter";
 
 type ProductCounterChangedEvent = CustomEvent<{ amount: number }>;
 @customElement("product-counter")
@@ -231,16 +232,7 @@ export class ProductCard extends LitElement {
   }
 
   private getFormattedCost() {
-    const cost = Number(this.cost);
-
-    if ((cost << 0) < cost) {
-      return Intl.NumberFormat('ru-RU', {
-        style: 'currency',
-        currency: 'rub'
-      }).format(cost)
-    }
-    
-    return new Intl.NumberFormat('ru-RU', { style: 'currency', currency: 'rub', maximumFractionDigits: 0 }).format(Number(this.cost))
+    return formatPrice(Number(this.cost));
   }
 
   private _onBuyClick() {

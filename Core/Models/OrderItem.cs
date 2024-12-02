@@ -4,6 +4,6 @@ public class OrderItem
 {
   public int OrderItemId { get; set; }
   public Car Car { get; set; } = null!;
-  public int Amount { get; set; }
+  public uint Amount { get; set; }
 }
 
